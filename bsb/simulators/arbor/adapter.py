@@ -10,7 +10,7 @@ from ...simulation import (
 from ...reporting import report, warn
 from ...exceptions import *
 from ...helpers import continuity_list, continuity_hop, get_configurable_class
-import numpy as np
+import numpy as np, sys
 
 try:
     import arbor
@@ -104,7 +104,7 @@ class ArborRecipe(arbor.recipe):
         return self._lookup.lookup_kind(gid)
 
     def cell_description(self, gid):
-        print("Looking for models")
+        print("Looking for models", file=sys.stderr, flush=True)
         model = self._lookup.lookup_model(gid)
         return model.get_description()
 
@@ -123,7 +123,7 @@ class ArborAdapter(SimulatorAdapter):
 
     def prepare(self):
         print("context")
-        context = arbor.context()
+        context = arbor.context(threads=1)
         print("recipe")
         recipe = self.get_recipe()
         print("domains")

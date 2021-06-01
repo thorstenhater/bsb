@@ -14,15 +14,24 @@ from ...exceptions import *
 import random, os, sys
 import numpy as np
 import traceback
-import errr
+import errr, sys, types
 
-
-try:
-    import neuron
-
-    _has_neuron = True
-except ImportError:
-    _has_neuron = False
+nrn = types.ModuleType("neuron")
+patch = types.ModuleType("patch")
+patch.objects = types.ModuleType("patch.objects")
+patch.p = 5
+nrn.h = 5
+nrn.version = "8.0.0"
+sys.modules["neuron"] = nrn
+sys.modules["patch"] = patch
+sys.modules["patch.objects"] = patch.objects
+_has_neuron = False
+# try:
+#     import neuron
+#
+#     _has_neuron = True
+# except ImportError:
+#     _has_neuron = False
 
 
 class NeuronCell(SimulationCell):
